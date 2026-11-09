@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # budgetbuddy
 
 A new Flutter project.
@@ -15,3 +16,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# BudgetBuddy_APPDEV
+>>>>>>> 3ba17d7bdb75d100c9708b5cbc4ecbc38cb4eb0e
