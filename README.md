@@ -1,3 +1,5 @@
+#BUDGET BUDDY
+
 - pag mag eedit or add kayo ng code nasa Lib lahat
 - pag mag ccommit naman kayo same process lang siya kung pano kayo mag commit sa VS Code
 - and gawa nalang kayo another branch if want niyo dun muna mag commit sa mga dinag-dag niyo
