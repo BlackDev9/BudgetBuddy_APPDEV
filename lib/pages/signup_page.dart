@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
@@ -17,7 +16,7 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
-  TextEditingController();
+      TextEditingController();
 
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -70,52 +69,31 @@ class _SignupPageState extends State<SignupPage> {
   }) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: const TextStyle(
-        fontSize: 12,
-        color: AppColors.textGray,
-      ),
-      prefixIcon: Icon(
-        icon,
-        size: 18,
-        color: AppColors.textGray,
-      ),
+      hintStyle: const TextStyle(fontSize: 12, color: AppColors.textGray),
+      prefixIcon: Icon(icon, size: 18, color: AppColors.textGray),
       suffixIcon: suffix,
       filled: true,
       fillColor: Colors.white,
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 12,
-        vertical: 13,
-      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 13),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(9),
-        borderSide: const BorderSide(
-          color: AppColors.border,
-        ),
+        borderSide: const BorderSide(color: AppColors.border),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(9),
-        borderSide: const BorderSide(
-          color: AppColors.border,
-        ),
+        borderSide: const BorderSide(color: AppColors.border),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(9),
-        borderSide: const BorderSide(
-          color: AppColors.primaryGreen,
-          width: 1.5,
-        ),
+        borderSide: const BorderSide(color: AppColors.primaryGreen, width: 1.5),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(9),
-        borderSide: const BorderSide(
-          color: Colors.redAccent,
-        ),
+        borderSide: const BorderSide(color: Colors.redAccent),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(9),
-        borderSide: const BorderSide(
-          color: Colors.redAccent,
-        ),
+        borderSide: const BorderSide(color: Colors.redAccent),
       ),
     );
   }
@@ -128,17 +106,12 @@ class _SignupPageState extends State<SignupPage> {
         child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 450,
-              ),
+              constraints: const BoxConstraints(maxWidth: 450),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 28,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 28),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     const SizedBox(height: 10),
 
                     // Back button
@@ -197,10 +170,7 @@ class _SignupPageState extends State<SignupPage> {
 
                     const Text(
                       'Join Budget Buddy and start managing your money.',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.textGray,
-                      ),
+                      style: TextStyle(fontSize: 12, color: AppColors.textGray),
                     ),
 
                     const SizedBox(height: 25),
@@ -211,7 +181,6 @@ class _SignupPageState extends State<SignupPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
                           // Full name
                           _buildLabel('Full Name'),
 
@@ -226,8 +195,7 @@ class _SignupPageState extends State<SignupPage> {
                               icon: Icons.person_outline,
                             ),
                             validator: (value) {
-                              if (value == null ||
-                                  value.trim().isEmpty) {
+                              if (value == null || value.trim().isEmpty) {
                                 return 'Please enter your full name.';
                               }
 
@@ -255,8 +223,7 @@ class _SignupPageState extends State<SignupPage> {
                               icon: Icons.email_outlined,
                             ),
                             validator: (value) {
-                              if (value == null ||
-                                  value.trim().isEmpty) {
+                              if (value == null || value.trim().isEmpty) {
                                 return 'Please enter your email.';
                               }
 
@@ -296,8 +263,7 @@ class _SignupPageState extends State<SignupPage> {
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    _obscurePassword =
-                                    !_obscurePassword;
+                                    _obscurePassword = !_obscurePassword;
                                   });
                                 },
                               ),
@@ -340,7 +306,7 @@ class _SignupPageState extends State<SignupPage> {
                                 onPressed: () {
                                   setState(() {
                                     _obscureConfirmPassword =
-                                    !_obscureConfirmPassword;
+                                        !_obscureConfirmPassword;
                                   });
                                 },
                               ),
@@ -368,13 +334,11 @@ class _SignupPageState extends State<SignupPage> {
                             child: ElevatedButton(
                               onPressed: _createAccount,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                AppColors.primaryGreen,
+                                backgroundColor: AppColors.primaryGreen,
                                 foregroundColor: Colors.white,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(9),
+                                  borderRadius: BorderRadius.circular(9),
                                 ),
                               ),
                               child: const Text(

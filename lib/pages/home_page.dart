@@ -1,6 +1,9 @@
-
 import 'package:flutter/material.dart';
+
 import '../theme/app_theme.dart';
+import 'forecast_page.dart';
+import 'expenses_page.dart';
+import 'paycyle_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,34 +15,27 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  final List<String> _pageTitles = [
-    'Home',
-    'Financial Forecast',
-    'Expenses',
-    'Pay Cycle',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
 
+      // Main pages
       body: SafeArea(
         child: IndexedStack(
           index: _selectedIndex,
-          children: const [
-            _HomeDashboard(),
-            _ComingSoonPage(
-              title: 'Financial Forecast',
-              icon: Icons.trending_up_rounded,
-            ),
-            _ComingSoonPage(
-              title: 'Expenses',
-              icon: Icons.receipt_long_rounded,
-            ),
-            _ComingSoonPage(
-              title: 'Pay Cycle',
-              icon: Icons.calendar_month_rounded,
+          children: [
+            const _HomeDashboard(),
+            const ForecastScreen(),
+            const ExpensesPage(),
+
+            // Back arrow returns to the Home tab
+            PayCyclePage(
+              onBack: () {
+                setState(() {
+                  _selectedIndex = 0;
+                });
+              },
             ),
           ],
         ),
@@ -93,12 +89,8 @@ class _HomeDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 22,
-        vertical: 18,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
       children: [
-
         // Header
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -117,14 +109,10 @@ class _HomeDashboard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   'Welcome back to Budget Buddy!',
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: AppColors.textGray,
-                  ),
+                  style: TextStyle(fontSize: 11, color: AppColors.textGray),
                 ),
               ],
             ),
-
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -142,16 +130,13 @@ class _HomeDashboard extends StatelessWidget {
 
         const SizedBox(height: 25),
 
-        // Current balance card
+        // Safe to Spend Today card
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [
-                AppColors.primaryGreen,
-                AppColors.darkGreen,
-              ],
+              colors: [AppColors.primaryGreen, AppColors.darkGreen],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -164,51 +149,21 @@ class _HomeDashboard extends StatelessWidget {
               ),
             ],
           ),
-          child: Column(
+          child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Current Balance',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.white70,
-                ),
+              Text(
+                'Safe to Spend Today',
+                style: TextStyle(fontSize: 13, color: Colors.white70),
               ),
-
-              const SizedBox(height: 8),
-
-              const Text(
-                '₱9,000.00',
+              SizedBox(height: 8),
+              Text(
+                '₱900.00',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
-              ),
-
-              const SizedBox(height: 18),
-
-              const Divider(
-                color: Colors.white30,
-                height: 1,
-              ),
-
-              const SizedBox(height: 15),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _balanceInfo(
-                    Icons.arrow_downward_rounded,
-                    'Income',
-                    '₱15,000',
-                  ),
-                  _balanceInfo(
-                    Icons.arrow_upward_rounded,
-                    'Expenses',
-                    '₱6,000',
-                  ),
-                ],
               ),
             ],
           ),
@@ -216,121 +171,98 @@ class _HomeDashboard extends StatelessWidget {
 
         const SizedBox(height: 20),
 
-        // Pay cycle countdown
+        // Days left in cycle card
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: AppColors.lightGreen,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(
-                  Icons.calendar_today_rounded,
-                  color: AppColors.primaryGreen,
-                  size: 25,
-                ),
-              ),
-
-              const SizedBox(width: 13),
-
-              const Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Next Payday',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.textGray,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      'December 1, 2026',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textDark,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const Column(
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '12',
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.calendar_today_rounded,
+                      color: AppColors.primaryGreen,
+                      size: 25,
+                    ),
+                  ),
+
+                  const SizedBox(width: 13),
+
+                  // Days left in cycle and 12 Days
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Days left in cycle',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppColors.textGray,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          '12 Days',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryGreen,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Money left on the upper-right corner
+                  const Text(
+                    '₱11,600.00 left',
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 17,
                       fontWeight: FontWeight.bold,
                       color: AppColors.primaryGreen,
                     ),
                   ),
+                ],
+              ),
+
+              const SizedBox(height: 15),
+
+              // Pay cycle date range
+              const Divider(color: Color(0xFFD0E5D5), height: 1),
+
+              const SizedBox(height: 12),
+
+              const Row(
+                children: [
+                  Icon(
+                    Icons.date_range_rounded,
+                    size: 15,
+                    color: AppColors.textGray,
+                  ),
+                  SizedBox(width: 7),
                   Text(
-                    'Days left',
+                    'Oct 1 - Nov 1',
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: 11,
                       color: AppColors.textGray,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
               ),
             ],
           ),
-        ),
-
-        const SizedBox(height: 25),
-
-        // Quick actions
-        const Text(
-          'Quick Actions',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: AppColors.textDark,
-          ),
-        ),
-
-        const SizedBox(height: 14),
-
-        Row(
-          children: [
-            Expanded(
-              child: _quickAction(
-                Icons.add_circle_outline,
-                'Add Expense',
-                    () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Add Expense coming soon!'),
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _quickAction(
-                Icons.analytics_outlined,
-                'View Forecast',
-                    () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Forecast page coming soon!'),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
         ),
 
         const SizedBox(height: 25),
@@ -347,7 +279,6 @@ class _HomeDashboard extends StatelessWidget {
                 color: AppColors.textDark,
               ),
             ),
-
             TextButton(
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -358,10 +289,7 @@ class _HomeDashboard extends StatelessWidget {
               },
               child: const Text(
                 'See All',
-                style: TextStyle(
-                  fontSize: 11,
-                  color: AppColors.primaryGreen,
-                ),
+                style: TextStyle(fontSize: 11, color: AppColors.primaryGreen),
               ),
             ),
           ],
@@ -398,104 +326,21 @@ class _HomeDashboard extends StatelessWidget {
     );
   }
 
-  // Balance information
-  Widget _balanceInfo(
-      IconData icon,
-      String label,
-      String amount,
-      ) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          color: Colors.white,
-          size: 18,
-        ),
-        const SizedBox(width: 7),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white70,
-                fontSize: 10,
-              ),
-            ),
-            Text(
-              amount,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  // Quick action button
-  Widget _quickAction(
-      IconData icon,
-      String label,
-      VoidCallback onTap,
-      ) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 16,
-          horizontal: 10,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: AppColors.border,
-          ),
-        ),
-        child: Column(
-          children: [
-            Icon(
-              icon,
-              color: AppColors.primaryGreen,
-              size: 27,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textDark,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   // Recent transaction item
   Widget _transactionItem(
-      IconData icon,
-      String title,
-      String date,
-      String amount,
-      Color iconColor,
-      ) {
+    IconData icon,
+    String title,
+    String date,
+    String amount,
+    Color iconColor,
+  ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(13),
-        border: Border.all(
-          color: AppColors.border,
-        ),
+        border: Border.all(color: AppColors.border),
       ),
       child: Row(
         children: [
@@ -505,15 +350,9 @@ class _HomeDashboard extends StatelessWidget {
               color: iconColor.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(
-              icon,
-              color: iconColor,
-              size: 21,
-            ),
+            child: Icon(icon, color: iconColor, size: 21),
           ),
-
           const SizedBox(width: 12),
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -537,60 +376,12 @@ class _HomeDashboard extends StatelessWidget {
               ],
             ),
           ),
-
           Text(
             amount,
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
               color: Colors.redAccent,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ==========================================
-// TEMPORARY PLACEHOLDER PAGES
-// ==========================================
-
-class _ComingSoonPage extends StatelessWidget {
-  final String title;
-  final IconData icon;
-
-  const _ComingSoonPage({
-    required this.title,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: 65,
-            color: AppColors.primaryGreen,
-          ),
-          const SizedBox(height: 15),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textDark,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'This feature is coming soon!',
-            style: TextStyle(
-              fontSize: 12,
-              color: AppColors.textGray,
             ),
           ),
         ],
