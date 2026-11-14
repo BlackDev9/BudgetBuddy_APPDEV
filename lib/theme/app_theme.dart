@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,7 +10,9 @@ class AppColors {
   static const Color textDark = Color(0xFF26382F);
   static const Color textGray = Color(0xFF89958D);
   static const Color border = Color(0xFFDCE5DD);
+
   static const Color white = Colors.white;
+  static const Color mutedText = textGray;
 }
 
 // Main application theme
